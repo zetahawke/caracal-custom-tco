@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'caracal/version'
+# require 'caracal/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'caracal'
-  spec.version       = Caracal::VERSION
+  spec.name          = 'caracals-custom'
+  spec.version       = '1.0'
   spec.authors       = ['Trade Infomatics', 'John Dugan']
   spec.email         = ['jpdugan@gmail.com']
   spec.summary       = %q{ Fast, professional MSWord writer for Ruby. }
