@@ -296,6 +296,7 @@ module Caracal
 
         xml['w'].tbl do
           xml['w'].tblPr do
+            xml['w'].cantSplit
             xml['w'].tblStyle({ 'w:val' => 'DefaultTable' })
             xml['w'].bidiVisual({ 'w:val' => '0' })
             xml['w'].tblW({ 'w:w'   => model.table_width.to_f, 'w:type' => 'dxa' })
@@ -331,10 +332,12 @@ module Caracal
           end
           model.rows.each do |row|
             xml['w'].tr do
+              xml['w'].trPr do
+                xml['w'].cantSplit
+              end
               row.each do |tc|
                 xml['w'].tc do
                   xml['w'].tcPr do
-                    xml['w'].cantSplit
                     xml['w'].shd({ 'w:fill' => tc.cell_background })
                     xml['w'].vAlign({ 'w:val' => tc.cell_vertical_align })
                     xml['w'].tcMar do
