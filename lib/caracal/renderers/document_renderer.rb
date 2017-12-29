@@ -334,6 +334,7 @@ module Caracal
               row.each do |tc|
                 xml['w'].tc do
                   xml['w'].tcPr do
+                    xml['w'].cantSplit
                     xml['w'].shd({ 'w:fill' => tc.cell_background })
                     xml['w'].vAlign({ 'w:val' => tc.cell_vertical_align })
                     xml['w'].tcMar do
