@@ -12,6 +12,7 @@ require 'caracal/core/lists'
 require 'caracal/core/namespaces'
 require 'caracal/core/page_breaks'
 require 'caracal/core/page_numbers'
+require 'caracal/core/headers'
 require 'caracal/core/page_settings'
 require 'caracal/core/relationships'
 require 'caracal/core/rules'
@@ -26,6 +27,7 @@ require 'caracal/renderers/custom_renderer'
 require 'caracal/renderers/document_renderer'
 require 'caracal/renderers/fonts_renderer'
 require 'caracal/renderers/footer_renderer'
+require 'caracal/renderers/header_renderer'
 require 'caracal/renderers/numbering_renderer'
 require 'caracal/renderers/package_relationships_renderer'
 require 'caracal/renderers/relationships_renderer'
@@ -52,6 +54,7 @@ module Caracal
     include Caracal::Core::PageNumbers
     include Caracal::Core::Styles
     include Caracal::Core::ListStyles
+    include Caracal::Core::Headers
 
     include Caracal::Core::IFrames
     include Caracal::Core::Images
@@ -141,9 +144,11 @@ module Caracal
         render_custom(zip)
         render_fonts(zip)
         render_footer(zip)
+        render_header(zip)
         render_settings(zip)
         render_styles(zip)
         render_document(zip)
+        render_header_relationships(zip) # Must go here: Depends on header renderer
         render_relationships(zip)   # Must go here: Depends on document renderer
         render_media(zip)           # Must go here: Depends on document renderer
         render_numbering(zip)       # Must go here: Depends on document renderer
@@ -208,8 +213,22 @@ module Caracal
       zip.write(content)
     end
 
+    def render_header(zip)
+      content = ::Caracal::Renderers::HeaderRenderer.render(self)
+
+      zip.put_next_entry('word/header1.xml')
+      zip.write(content)
+    end
+
+    def render_header_relationships(zip)
+      content = ::Caracal::Renderers::RelationshipsRenderer.new(self, header_relationships).to_xml
+
+      zip.put_next_entry('word/_rels/header1.xml.rels')
+      zip.write(content)
+    end
+
     def render_media(zip)
-      images = relationships.select { |r| r.relationship_type == :image }
+      images = (relationships + header_relationships).select { |r| r.relationship_type == :image }
       images.each do |rel|
         if rel.relationship_data.to_s.size > 0
           content = rel.relationship_data

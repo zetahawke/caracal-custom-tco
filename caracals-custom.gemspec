@@ -4,8 +4,8 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 # require 'caracal/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'caracals-custom-tco'
-  spec.version       = '1.0.1'
+  spec.name          = 'caracals-custom'
+  spec.version       = '1.0.2'
   spec.authors       = ['Trade Infomatics', 'John Dugan']
   spec.email         = ['jpdugan@gmail.com']
   spec.summary       = %q{ Fast, professional MSWord writer for Ruby. }

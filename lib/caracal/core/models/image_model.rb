@@ -22,6 +22,7 @@ module Caracal
         const_set(:DEFAULT_IMAGE_BOTTOM,  8)        # units in pixels. 
         const_set(:DEFAULT_IMAGE_LEFT,    8)        # units in pixels. 
         const_set(:DEFAULT_IMAGE_RIGHT,   8)        # units in pixels. 
+        const_set(:DEFAULT_IMAGE_CLEAN_LEFT,    false)
         
         # accessors
         attr_reader :image_url
@@ -34,6 +35,7 @@ module Caracal
         attr_reader :image_bottom
         attr_reader :image_left
         attr_reader :image_right
+        attr_reader :image_clean_left
         
         
         # initialization
@@ -46,6 +48,7 @@ module Caracal
           @image_bottom = DEFAULT_IMAGE_BOTTOM
           @image_left   = DEFAULT_IMAGE_LEFT
           @image_right  = DEFAULT_IMAGE_RIGHT
+          @image_clean_left = DEFAULT_IMAGE_CLEAN_LEFT
           
           super options, &block
         end
@@ -86,7 +89,7 @@ module Caracal
         end
         
         # strings
-        [:data, :url].each do |m|
+        [:data, :url, :clean_left].each do |m|
           define_method "#{ m }" do |value|
             instance_variable_set("@image_#{ m }", value.to_s)
           end
@@ -98,8 +101,7 @@ module Caracal
             instance_variable_set("@image_#{ m }", value.to_s.to_sym)
           end
         end        
-        
-        
+
         #=============== VALIDATION ==============================
         
         def valid?
@@ -115,7 +117,7 @@ module Caracal
         private
         
         def option_keys
-          [:url, :width, :height, :align, :top, :bottom, :left, :right]
+          [:url, :width, :height, :align, :top, :bottom, :left, :right, :clean_left]
         end
         
         def pixels_to_emus(value, ppi)

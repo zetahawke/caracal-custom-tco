@@ -36,6 +36,11 @@ module Caracal
                     xml['w'].footerReference({ 'r:id' => rel.formatted_id, 'w:type' => 'default' })
                   end
                 end
+                if document.header_show 
+                  if rel = document.find_relationship('header1.xml')
+                    xml['w'].headerReference({ 'r:id' => rel.formatted_id, 'w:type' => 'default' })
+                  end
+                end
                 xml['w'].pgSz page_size_options
                 xml['w'].pgMar page_margin_options
               end
@@ -135,7 +140,6 @@ module Caracal
         unless ds = document.default_style
           raise Caracal::Errors::NoDefaultStyleError 'Document must declare a default paragraph style.'
         end
-
         rel      = document.relationship({ type: :image, target: model.image_url, data: model.image_data })
         rel_id   = rel.relationship_id
         rel_name = rel.formatted_target
@@ -145,6 +149,7 @@ module Caracal
             xml['w'].spacing({ 'w:lineRule' => 'auto', 'w:line' => ds.style_line })
             xml['w'].contextualSpacing({ 'w:val' => '0' })
             xml['w'].jc({ 'w:val' => model.image_align.to_s })
+            xml['w'].ind({ 'w:left' => -document.page_margin_left }) if model.image_clean_left
             xml['w'].rPr
           end
           xml['w'].r run_options do
@@ -409,7 +414,8 @@ module Caracal
           'w:top'    => document.page_margin_top,
           'w:bottom' => document.page_margin_bottom,
           'w:left'   => document.page_margin_left,
-          'w:right'  => document.page_margin_right
+          'w:right'  => document.page_margin_right,
+          'w:header' => "0"
         }
       end
 
