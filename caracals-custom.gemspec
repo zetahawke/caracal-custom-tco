@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 # require 'caracal/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'caracals-custom'
+  spec.name          = 'caracals-custom-tco'
   spec.version       = '1.0.1'
   spec.authors       = ['Trade Infomatics', 'John Dugan']
   spec.email         = ['jpdugan@gmail.com']
@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'nokogiri', '~> 1.6'
-  spec.add_dependency 'rubyzip',  '~> 1.1'
+  spec.add_dependency 'rubyzip',  '~> 1.2'
   spec.add_dependency 'tilt',     '>= 1.4'
 
   spec.add_development_dependency 'bundler',  '~> 1.3'
